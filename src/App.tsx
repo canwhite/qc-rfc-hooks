@@ -30,7 +30,7 @@ export default () => {
   const p = useEvent(async ()=>{    
     return "123";
   });
-  const data =  usePromise(p());
+  const data =  usePromise(p);
   //和三方合作，这里做下监听
   useEffect(()=>{
     console.log("--",data);
