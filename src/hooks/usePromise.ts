@@ -1,15 +1,11 @@
 import { useState, useEffect} from "react";
 
-async function handlePromise(promise: Promise<any>) {
-  try {
-    const data = await promise;
-    return data;
-  } catch (error) {
-    return error;
-  }
-}
-const usePromise = (promise: Promise<any>) =>{
-  const [result, setResult] = useState<null | any>(null);
+const handlePromise = (promise: Promise<unknown>) =>
+  promise.then(data => (data))
+    .catch(error => (error));
+
+const usePromise = (promise: Promise<unknown>) => {
+  const [result, setResult] = useState<null | unknown>(null);
   useEffect(() => {
     let isMounted = true;
     handlePromise(promise).then(
@@ -18,6 +14,5 @@ const usePromise = (promise: Promise<any>) =>{
     return () => { isMounted = false };
   }, [promise]);
   return result;
-}
-
+};
 export default usePromise;
