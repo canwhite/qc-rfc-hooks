@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, {useEffect, useMemo, useState } from "react";
 import useGlobalState from "./hooks/useGlobalState";
 import usePromise from "./hooks/usePromise";
 import useEvent from "./hooks/useEvent";
 import {useIsolation,IsolationProvider,useIsolationWithDeps} from "./hooks/useIsolation";
-const MyContext = React.createContext(0);
 
 //初始化
 const useGlobalStep = () => useGlobalState("globalStep", 1);
@@ -25,7 +24,7 @@ const B = () => {
   );
 };
 
-export default () => {  
+const App = () => {  
   const [globalStep, setGlobalStep] = useGlobalStep();
   const p = useEvent(async ()=>{    
     return "123";
@@ -61,6 +60,7 @@ export default () => {
       return useMemo(() => x - (x % 2), [x])
     })
   */
+ 
   const y = useIsolationWithDeps(()=>{
     const [y,] = useState(Math.random())  ;
     return useMemo(()=>x+y,[y])
@@ -83,3 +83,5 @@ export default () => {
     </IsolationProvider>
   );
 };
+
+export default App;
