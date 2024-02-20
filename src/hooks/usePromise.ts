@@ -1,4 +1,4 @@
-mport { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 const handlePromise = (promise: Promise<unknown>) =>
   promise.then((data) => data).catch((error) => error);
 const usePromise = (promiseFunc: () => Promise<unknown>) => {
