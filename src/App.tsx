@@ -2,10 +2,19 @@ import React, {useEffect, useMemo, useState } from "react";
 import useGlobalState from "./hooks/useGlobalState";
 import usePromise from "./hooks/usePromise";
 import useEvent from "./hooks/useEvent";
-import {useIsolation,IsolationProvider,useIsolationWithDeps} from "./hooks/useIsolation";
+import {IsolationProvider,useIsolationWithDeps} from "./hooks/useIsolation";
+import { create } from "./zustand";
 
 //初始化
 const useGlobalStep = () => useGlobalState("globalStep", 1);
+const useCommonStore = create(()=>({
+  count:1,
+  todo:[
+    {item:1},
+    {item:2},
+    {item:3}
+  ]
+}));
 
 const A = () => {
   const [globalStep] = useGlobalStep();
@@ -25,21 +34,26 @@ const B = () => {
 };
 
 const App = () => {  
+
+  //useGlobalStep
   const [globalStep, setGlobalStep] = useGlobalStep();
+  //usePromise
   const p = useEvent(async ()=>{    
     return "123";
   });
-  const data =  usePromise(p);
-  //和三方合作，这里做下监听
-  useEffect(()=>{
-    console.log("--",data);
-  },[data]);
+  console.log(usePromise(p));
+
+  //store
+  const todo = useCommonStore((state:any)=>state.todo)
+  console.log("---",todo);
+  console.log(useCommonStore.getState())
 
 
+  //useIsolation
   const [x, setX] = React.useState(0)
   useEffect(
     () => {
-      let interval = setInterval(() => setX(x => x + 1), 1000)
+      let interval = setInterval(() => setX(x => x + 1), 300000)
       console.log(interval);
       return () => { clearInterval(interval) }
     },
@@ -62,7 +76,9 @@ const App = () => {
   */
  
   const y = useIsolationWithDeps(()=>{
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [y,] = useState(Math.random())  ;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     return useMemo(()=>x+y,[y])
   },[x])
   console.log("---y---",y);
