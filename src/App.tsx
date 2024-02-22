@@ -45,8 +45,12 @@ const App = () => {
 
   //store
   const todo = useCommonStore((state:any)=>state.todo)
-  console.log("---",todo);
-  console.log(useCommonStore.getState())
+  console.log("---todo---",todo);
+  console.log("---count---",useCommonStore.getState().count)
+  useCommonStore.setState({count:2});
+  const count = useCommonStore((state:any)=>state.count)
+  console.log("---count---",count)
+  
 
 
   //useIsolation
