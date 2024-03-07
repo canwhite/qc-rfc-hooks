@@ -1,6 +1,6 @@
 # Active RFC List
 
-Implementation of Hooks in RFCs  
+Implementation of Hooks in RFCs, and self-implement a zustand 
 
 ## Available Scripts
 
